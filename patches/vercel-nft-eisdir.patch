@@ -1,0 +1,11 @@
+diff --git a/out/fs.js b/out/fs.js
+--- a/out/fs.js
++++ b/out/fs.js
+@@ -67,6 +67,6 @@
+         }
+         catch (e) {
+-            if (e.code !== 'EINVAL' && e.code !== 'ENOENT' && e.code !== 'UNKNOWN')
++            if (e.code !== 'EINVAL' && e.code !== 'ENOENT' && e.code !== 'UNKNOWN' && e.code !== 'EISDIR')
+                 throw e;
+             return null;
+         }
