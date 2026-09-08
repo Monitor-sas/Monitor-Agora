@@ -1,0 +1,27 @@
+---
+import IncidentsSection from "../components/incidents/IncidentsSection.astro";
+import ServiceGroup from "../components/services/ServiceGroup.astro";
+import StatusBanner from "../components/status/StatusBanner.astro";
+import UptimeSummary from "../components/uptime/UptimeSummary.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCurrentStatus } from "../lib/monitoring/index";
+import type { ServiceStatusResult } from "../types";
+
+const report = await getCurrentStatus();
+
+const groups = new Map<string, ServiceStatusResult[]>();
+for (const service of report.services) {
+	const group = groups.get(service.group) ?? [];
+	group.push(service);
+	groups.set(service.group, group);
+}
+---
+
+<BaseLayout>
+	<StatusBanner status={report.status} checkedAt={report.checkedAt} />
+	{[...groups.entries()].map(([name, services]) => (
+		<ServiceGroup name={name} services={services} />
+	))}
+	<UptimeSummary />
+	<IncidentsSection />
+</BaseLayout>

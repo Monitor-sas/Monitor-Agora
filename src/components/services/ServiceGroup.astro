@@ -1,0 +1,18 @@
+---
+import type { ServiceStatusResult } from "../../types";
+import ServiceStatusRow from "./ServiceStatusRow.astro";
+
+interface Props {
+	name: string;
+	services: ServiceStatusResult[];
+}
+
+const { name, services } = Astro.props;
+---
+
+<section class="service-group" aria-label={`${name} services`}>
+	<h2 class="group-title">{name}</h2>
+	<ul class="group-card">
+		{services.map((service) => <ServiceStatusRow service={service} />)}
+	</ul>
+</section>

@@ -1,0 +1,19 @@
+---
+import { formatTimestamp, getOverallStatusLabel } from "../../lib/utils/status";
+import type { OverallStatus } from "../../types";
+
+interface Props {
+	status: OverallStatus;
+	checkedAt: string;
+}
+
+const { status, checkedAt } = Astro.props;
+---
+
+<section class="banner" data-status={status}>
+	<span class="banner-dot" data-status={status} aria-hidden="true"></span>
+	<div class="banner-copy">
+		<p class="banner-title" role="status">{getOverallStatusLabel(status)}</p>
+		<p class="banner-last-checked">Last checked {formatTimestamp(checkedAt)}</p>
+	</div>
+</section>
