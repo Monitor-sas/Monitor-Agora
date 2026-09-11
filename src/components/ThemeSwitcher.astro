@@ -1,0 +1,70 @@
+---
+const themes = [
+	{ value: "system", label: "System", title: "Follow system theme" },
+	{ value: "light", label: "Light", title: "Light theme" },
+	{ value: "dark", label: "Dark", title: "Dark theme" },
+];
+---
+
+<div class="theme-switch" role="group" aria-label="Theme">
+	{themes.map((t) => (
+		<button
+			type="button"
+			class:list={{ "is-active": t.value === "system" }}
+			data-theme-option={t.value}
+			aria-pressed={t.value === "system" ? "true" : "false"}
+			title={t.title}
+		>
+			<span class="theme-icon" aria-hidden="true" data-icon={t.value}>
+				<svg viewBox="0 0 24 24" focusable="false">
+					{t.value === "system" ? (
+						<path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" />
+					) : t.value === "light" ? (
+						<path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+					) : (
+						<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" />
+					)}
+				</svg>
+			</span>
+			<span class="theme-label">{t.label}</span>
+		</button>
+	))}
+</div>
+
+<script is:inline>
+	function agoraGetTheme() {
+		try {
+			const stored = localStorage.getItem("agora:theme");
+			if (stored === "light" || stored === "dark" || stored === "system") {
+				return stored;
+			}
+		} catch {
+			// localStorage no disponible: se usa el tema del sistema
+		}
+		return "system";
+	}
+
+	function agoraApplyTheme(theme) {
+		document.documentElement.setAttribute("data-theme", theme);
+		const buttons = document.querySelectorAll("[data-theme-option]");
+		buttons.forEach((button) => {
+			const active = button.getAttribute("data-theme-option") === theme;
+			button.classList.toggle("is-active", active);
+			button.setAttribute("aria-pressed", active ? "true" : "false");
+		});
+	}
+
+	document.querySelectorAll("[data-theme-option]").forEach((button) => {
+		button.addEventListener("click", () => {
+			const theme = button.getAttribute("data-theme-option") || "system";
+			agoraApplyTheme(theme);
+			try {
+				localStorage.setItem("agora:theme", theme);
+			} catch {
+				// persistencia no disponible, se mantiene el tema en la sesion
+			}
+		});
+	});
+
+	agoraApplyTheme(agoraGetTheme());
+</script>
