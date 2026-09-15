@@ -8,7 +8,7 @@ interface Props {
 }
 
 const {
-	title = "AGORA — Monitor Status",
+	title = "ARGUS — Monitor Status",
 	description = "Public operational status of the Monitor platform",
 } = Astro.props;
 const year = new Date().getFullYear();
@@ -25,7 +25,7 @@ const year = new Date().getFullYear();
 		<script is:inline>
 			(function () {
 				try {
-					var t = localStorage.getItem("agora:theme");
+					var t = localStorage.getItem("argus:theme");
 					if (t === "light" || t === "dark" || t === "system") {
 						document.documentElement.setAttribute("data-theme", t);
 					} else {
@@ -65,7 +65,7 @@ const year = new Date().getFullYear();
 								</g>
 							</svg>
 						</span>
-						<span class="brand-title">AGORA</span>
+						<span class="brand-title">ARGUS</span>
 					</a>
 				</h1>
 				<p class="brand-tagline">Monitor · Operational Status</p>

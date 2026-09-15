@@ -32,9 +32,9 @@ const themes = [
 </div>
 
 <script is:inline>
-	function agoraGetTheme() {
+	function argusGetTheme() {
 		try {
-			const stored = localStorage.getItem("agora:theme");
+			const stored = localStorage.getItem("argus:theme");
 			if (stored === "light" || stored === "dark" || stored === "system") {
 				return stored;
 			}
@@ -44,7 +44,7 @@ const themes = [
 		return "system";
 	}
 
-	function agoraApplyTheme(theme) {
+	function argusApplyTheme(theme) {
 		document.documentElement.setAttribute("data-theme", theme);
 		const buttons = document.querySelectorAll("[data-theme-option]");
 		buttons.forEach((button) => {
@@ -57,14 +57,14 @@ const themes = [
 	document.querySelectorAll("[data-theme-option]").forEach((button) => {
 		button.addEventListener("click", () => {
 			const theme = button.getAttribute("data-theme-option") || "system";
-			agoraApplyTheme(theme);
+			argusApplyTheme(theme);
 			try {
-				localStorage.setItem("agora:theme", theme);
+				localStorage.setItem("argus:theme", theme);
 			} catch {
 				// persistencia no disponible, se mantiene el tema en la sesion
 			}
 		});
 	});
 
-	agoraApplyTheme(agoraGetTheme());
+	argusApplyTheme(argusGetTheme());
 </script>
